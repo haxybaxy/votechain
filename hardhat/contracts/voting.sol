@@ -49,8 +49,7 @@ contract Voting {
   function startVoting(string[] memory _candidates, uint256 _votingDuration) public onlyOwner {
     require(electionStatus == false, "Voting is already started"); // Check if voting is already started
     delete candidates;
-    // resetAllVoterStatus();
-
+    resetAllVoterStatus();
     for (uint i = 0; i < _candidates.length; i++) {
       candidates.push(Candidate({
         id: i,
@@ -65,7 +64,7 @@ contract Voting {
 
   // Add candidate
   function addCandidate(string memory _name) public onlyOwner electionOngoing{
-    // require(checkElectionPeriod(), "Voting has ended");
+    require(checkElectionPeriod(), "Voting has ended");
     candidates.push(Candidate({
       id: candidates.length,
       name: _name,
@@ -80,10 +79,42 @@ contract Voting {
 
   // Vote for candidate
   function voteTo(uint _id) public electionOngoing {
-     // require(checkElectionPeriod(), "Voting has ended");
+    require(checkElectionPeriod(), "Voting has ended");
     require(!voters[msg.sender], "You have already voted");
+    candidates[_id].voteCount += 1;
     voters[msg.sender] = true;
     votersList.push(msg.sender);
-    candidates[_id].voteCount += 1;
   }
+
+  // get number of votes
+  function getVoters() public view returns (Candidate[] memory) {
+    return candidates;
+  }
+
+  // monitoring voting time
+  function electionTimer() public view electionOngoing returns (uint) {
+    if (block.timestamp >= endTime) {
+      return 0;
+    } else {
+      return endTime - block.timestamp;
+    }
+  }
+
+  //check election period
+  function checkElectionPeriod() public returns (bool) {
+    if (electionTimer() > 0) {
+      return true;
+    } else {
+      electionStatus = false;
+      return false;
+    }
+  }
+  //reset all voter status
+  function resetAllVoterStatus() public onlyOwner {
+    for (uint i = 0; i < votersList.length; i++) {
+      voters[votersList[i]] = false;
+    }
+    delete votersList;
+  }
+
 }
