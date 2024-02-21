@@ -34,7 +34,7 @@ contract Voting {
 
 
   // Check voting status
-  modifier votingOngoing() {
+  modifier electionOngoing() {
     require(electionStatus, "Voting is not started yet");
     _;
   }
@@ -63,6 +63,27 @@ contract Voting {
   }
 
 
-  //add candidate
+  // Add candidate
+  function addCandidate(string memory _name) public onlyOwner electionOngoing{
+    // require(checkElectionPeriod(), "Voting has ended");
+    candidates.push(Candidate({
+      id: candidates.length,
+      name: _name,
+      voteCount: 0}));
+  }
 
+
+  // Check voter status
+  function checkVoterStatus(address _voter) public view electionOngoing returns (bool) {
+    return voters[_voter];
+  }
+
+  // Vote for candidate
+  function voteTo(uint _id) public electionOngoing {
+     // require(checkElectionPeriod(), "Voting has ended");
+    require(!voters[msg.sender], "You have already voted");
+    voters[msg.sender] = true;
+    votersList.push(msg.sender);
+    candidates[_id].voteCount += 1;
+  }
 }
