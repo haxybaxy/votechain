@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="styles.css" rel="stylesheet">
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+    <title>VoteChain</title>
+  </head>
+
+  <body>
+    <div id="connectMetaMask">
+      <p id="connectWalletMessage">Connect your MetaMask wallet to vote</p>
+      <button id="connectWallet">Connect Wallet</button>
+    </div>
+    <div id="votingStation">
+      <div id="timer">
+        <p id="timerMessage"><span id="time">123</span> seconds left</p>
+      </div>
+      <div id="mainBoard">
+        <table id="candidateBoard">
+          <tr>
+            <th>ID No.</th>
+            <th>Candidate</th>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>John Doe</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Jane Doe</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Zaid Saheb</td>
+          </tr>
+        </table>
+      </div>
+      <div id="voteForm">
+        <form id="voteForm">
+          <label for="candidateId">Candidate ID:</label>
+          <input type="number" id="candidateId" name="candidateId" required>
+          <input type="submit" value="Vote">
+        </form>
+      </div>
+
+      <div id="showVoteResult">
+        <button id="showVoteResultButton">Show Vote Result</button>
+      </div>
+      <div id="result">
+        <table id="candidateBoard">
+          <tr>
+            <th>ID No.</th>
+            <th>Candidate</th>
+            <th>Votes</th>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>John Doe</td>
+            <td>Votes</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Jane Doe</td>
+            <td>Votes</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Zaid Saheb</td>
+            <td>Votes</td>
+          </tr>
+        </table>
+      </div>
+      <div id="admin">
+        <p id="adminHeading">Admin Panel</p>
+    </div>
+    <script src="scripts.js"></script>
+
+  </body>
