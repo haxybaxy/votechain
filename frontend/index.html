@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="styles.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
     <title>VoteChain</title>
   </head>
@@ -41,12 +41,12 @@
         <form id="voteForm">
           <label for="candidateId">Candidate ID:</label>
           <input type="number" id="candidateId" name="candidateId" required>
-          <input type="submit" value="Vote">
+          <input type="submit" id="sendVote" value="Vote">
         </form>
       </div>
 
-      <div id="showVoteResult">
-        <button id="showVoteResultButton">Show Vote Result</button>
+      <div id="showResultContainer">
+        <button id="showResult">Show Vote Result</button>
       </div>
       <div id="result">
         <table id="candidateBoard">
@@ -74,9 +74,22 @@
       </div>
       <div id="admin">
         <p id="adminHeading">Admin Panel</p>
-        <p>Start Election</p>
-        <input type="text" id="candidates" placeholder="Names separated by comma">
-        <input type="number" id="duration" placeholder="Duration in seconds">
+        <div id="tools">
+          <div id="StartElection">
+          <p>Start Election</p>
+          <input type="text" id="candidates" placeholder="Names separated by comma">
+          <input type="number" id="duration" placeholder="Duration in minutes">
+          <button id="startElection">Start Election</button>
+          </div>
+
+          <div id="addCandidate">
+            <p>Add Candidate</p>
+            <input type="text" id="candidateName" placeholder="Name">
+            <button id="addCandidateButton">Add Candidate</button>
+          </div>
+
+        </div>
+      </div>
 
     </div>
     <script src="scripts.js"></script>
