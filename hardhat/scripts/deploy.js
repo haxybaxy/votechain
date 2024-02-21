@@ -7,6 +7,10 @@
 const hre = require("hardhat");
 
 async function main() {
+  const votingContract = await hre.ethers.getContractFactory("Voting");
+  const deployedVotingContract = await votingContract.deploy();
+
+  console.log(`Voting contract deployed to: ${deployedVotingContract.target}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
