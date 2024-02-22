@@ -1,3 +1,5 @@
+const { table } = require("astro/dist/core/logger/core");
+
 const connectWalletMsg = document.querySelector('#connectWalletMsg');
 const connectWalletBtn = document.querySelector('#connectWalletBtn');
 const votingStation = document.querySelector('#votingStation');
@@ -287,3 +289,23 @@ provider.send("eth_requestAccounts", []).then(() => {
 });
 
 //functions
+const getAllCandidates = async () => {
+  if (document.getElementById('candidateBoard')) {
+    document.getElementById('candidateBoard').remove();
+  }
+
+  let board = document.createElement("table");
+  board.id = 'candidateBoard';
+  mainBoard.appendChild(board);
+
+  let tableHeader = document.createElement("tr");
+  tableHeader.innerHTML = "<th>Candidate ID</th><th>Candidate Name</th>";
+  board.appendChild(tableHeader);
+
+  let candidates = await contract.retrieveVotes();
+  for (let i = 0; i < candidates.length; i++) {
+    let row = document.createElement("tr");
+    candidate.innerHTML = `<td>${parseInt(candidates[i][0])}</td><td>${candidates[i][1]}</td>`;
+    board.appendChild(candidate);
+  }
+}

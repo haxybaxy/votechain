@@ -87,7 +87,7 @@ contract Voting {
   }
 
   // get number of votes
-  function getVoters() public view returns (Candidate[] memory) {
+  function retrieveVotes() public view returns (Candidate[] memory) {
     return candidates;
   }
 
