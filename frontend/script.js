@@ -332,3 +332,28 @@ const getResult = async () => {
     resultBoard.appendChild(candidate);
   }
 }
+
+const refreshPage  = () => {
+  setInterval(async()=> {
+    let time = await contract.electionTimer();
+    if (time > 0) {
+      timerMessage.innerHTML = `<span id="time">${time}</span> seconds left`;
+      voteForm.style.display = 'flex';
+      showResultContainer.style.display = 'none';
+    } else {
+      timerMessage.innerHTML = `Election has ended`;
+      voteForm.style.display = 'none';
+      showResultContainer.style.display = 'block';
+    }
+  },10000)
+
+setInterval(async()=> {
+  getAllCandidates();
+},10000)
+
+
+const sendVote = async () => {};
+
+
+
+}
