@@ -309,3 +309,26 @@ const getAllCandidates = async () => {
     board.appendChild(candidate);
   }
 }
+
+const getResult = async () => {
+  result.style.display = 'flex';
+
+  if (document.getElementById('resultBoard')) {
+    document.getElementById('resultBoard').remove();
+  }
+
+  let resultBoard = document.createElement("table");
+  resultBoard.id = 'resultBoard';
+  result.appendChild(resultBoard);
+
+  let tableHeader = document.createElement("tr");
+  tableHeader.innerHTML = "<th>Candidate ID</th><th>Candidate Name</th><th>Votes</th>";
+  resultBoard.appendChild(tableHeader);
+
+  let candidates = await contract.retrieveVotes();
+  for (let i = 0; i < candidates.length; i++) {
+    let row = document.createElement("tr");
+    candidate.innerHTML = `<td>${parseInt(candidates[i][0])}</td><td>${candidates[i][1]}</td><td>${parseInt(candidates[i][2])}</td>`;
+    resultBoard.appendChild(candidate);
+  }
+}
