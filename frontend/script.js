@@ -17,6 +17,8 @@ const startAnElection = document.querySelector('#startAnElection');
 const candidate = document.querySelector('#candidate');
 const addTheCandidate = document.querySelector('#addTheCandidate');
 
+
+
 // Configuring Ethers
 const contractAddress = '0xfbDfA54287f757EB7F376F765Ef64447f39ca8f0';
 const contractABI = [
@@ -271,3 +273,17 @@ const contractABI = [
     "type": "function"
   }
 ]
+
+let contract;
+let signer;
+
+
+const provider = new ethers.providers.Web3Provider(window.ethereum, 80001);
+provider.send("eth_requestAccounts", []).then(() => {
+  provider.listAccounts().then((accounts) => {
+    signer = provider.getSigner(accounts[0]);
+    contract = new ethers.Contract(contractAddress, contractABI, signer);
+  });
+});
+
+//functions
