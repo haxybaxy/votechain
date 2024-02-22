@@ -352,7 +352,12 @@ setInterval(async()=> {
 },10000)
 
 
-const sendVote = async () => {};
+const sendVote = async () => {
+  await contract.voteTo(vote.value);
+  vote.value = '';
+};
+
+
 
 
 
