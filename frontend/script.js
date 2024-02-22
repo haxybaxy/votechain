@@ -346,19 +346,47 @@ const refreshPage  = () => {
       showResultContainer.style.display = 'block';
     }
   },10000)
-
-setInterval(async()=> {
-  getAllCandidates();
-},10000)
-
+  setInterval(async()=> {
+    getAllCandidates();
+  },10000)
+};
 
 const sendVote = async () => {
   await contract.voteTo(vote.value);
   vote.value = '';
 };
 
+const startElection = async () => {
+  if (!candidates.value) {
+    alert('Please add candidates');
+  }
+  if (!electionDuration.value) {
+    alert('Please add election duration');
+  }
+
+  const _candidates = candidates.value.split(',');
+  const _votingDuration = electionDuration.value;
+
+  await contract.startElection(_candidates, _votingDuration);
+  refreshPage();
+
+  candidates.value = '';
+  electionDuration.value = '';
+
+
+  voteForm.style.display = 'flex';
+  showResultContainer.style.display = 'none';
+};
+
+const addCandidate = async () => {
+  if (!candidate.value) {
+    alert('Please add a candidate');
+  }
+
+  await contract.addCandidate(candidate.value);
+  refreshPage();
+  candidate.value = '';
+};
 
 
 
-
-}
