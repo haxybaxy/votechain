@@ -149,7 +149,7 @@ body{
       padding: 20px;
       margin: 10px auto;
       border-top: 2px solid black;
-      display: none;
+      display: block;
       flex-direction: column;
   }
       #adminHeading{

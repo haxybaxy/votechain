@@ -1,5 +1,3 @@
-const { table } = require("astro/dist/core/logger/core");
-
 const connectWalletMsg = document.querySelector('#connectWalletMsg');
 const connectWalletBtn = document.querySelector('#connectWalletBtn');
 const votingStation = document.querySelector('#votingStation');
@@ -14,7 +12,7 @@ const showResult = document.querySelector('#showResult');
 const result = document.querySelector('#result');
 const admin = document.querySelector('#admin');
 const candidates = document.querySelector('#candidates');
-const  electionDuration = document.querySelector('#electionDuration');
+const electionDuration = document.querySelector('#electionDuration');
 const startAnElection = document.querySelector('#startAnElection');
 const candidate = document.querySelector('#candidate');
 const addTheCandidate = document.querySelector('#addTheCandidate');
@@ -325,7 +323,7 @@ const getResult = async () => {
   tableHeader.innerHTML = "<th>Candidate ID</th><th>Candidate Name</th><th>Votes</th>";
   resultBoard.appendChild(tableHeader);
 
-  let candidates = await contract.retrieveVotes();
+  let candidates = await contract.getVoters();
   for (let i = 0; i < candidates.length; i++) {
     let row = document.createElement("tr");
     candidate.innerHTML = `<td>${parseInt(candidates[i][0])}</td><td>${candidates[i][1]}</td><td>${parseInt(candidates[i][2])}</td>`;
@@ -367,7 +365,7 @@ const startElection = async () => {
   const _candidates = candidates.value.split(',');
   const _votingDuration = electionDuration.value;
 
-  await contract.startElection(_candidates, _votingDuration);
+  await contract.startVoting(_candidates, _votingDuration);
   refreshPage();
 
   candidates.value = '';
@@ -389,4 +387,34 @@ const addCandidate = async () => {
 };
 
 
+const getAccount = async () => {
+  const ethAccounts = await provider.send("eth_requestAccounts", []).then(() => {
+    provider.listAccounts().then((accounts) => {
+      signer = provider.getSigner(accounts[0]);
+      contract = new ethers.Contract(contractAddress, contractABI, signer);
+    });
+  });
 
+  connectWalletBtn.textContent = signer._address.slice(0,10) + "...";
+  connectWalletMsg.textContent = "Connected";
+  connectWalletBtn.disabled = true;
+
+  let owner = await contract.owner();
+  if (owner == signer._address) {
+    admin.style.display = 'flex';
+    let time = await contract.electionTimer();
+    if (time ==0) {
+      contract.checkElectionPeriod();
+    }
+  }
+
+  votingStation.style.display = 'block';
+  refreshPage();
+  getAllCandidates();
+};
+
+connectWalletBtn.addEventListener('click', getAccount);
+showResult.addEventListener('click', getResult);
+voteBtn.addEventListener('click', sendVote);
+addTheCandidate.addEventListener('click', addCandidate);
+startAnElection.addEventListener('click', startElection);
